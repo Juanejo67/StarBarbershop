@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>StarBarbershop</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header>
+    <header class="navbar">
+      <div class="logo">
+        <img src="logo.jpeg" alt="Logo" />
+        <span>StarBarbershop</span>
+      </div>
+      <nav id="nav-links">
+        <a href="#inicio">Inicio</a>
+        <a href="#servicios">Servicios</a>
+        <a href="reserva.html">Reservar</a>
+        <a href="#contacto">Contacto</a>
+      </nav>
+      <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+    </header>
+    <script>
+      function toggleMenu() {
+        const nav = document.getElementById("nav-links");
+        nav.classList.toggle("open");
+      }
+    </script>
+    
+
+    <section id="inicio" class="hero">
+      <h1>Barbería Profesional</h1>
+      <p>Cortes de cabello y barba con estilo único. Negocio familiar con más de 15 años de experiencia.</p>
+      <div class="botones">
+        <a href="reserva.html" class="btn-claro">Reservar Cita</a>
+        <a href="#servicios" class="btn-oscuro">Ver Servicios</a>
+      </div>
+    </section>
+    
+
+
+  <!-- Sección Servicios -->
+<section class="servicios" id="servicios">
+  <h2>Nuestros Servicios</h2>
+  <p>
+    Ofrecemos una variedad de cortes y estilos para satisfacer tus necesidades.
+    Todos nuestros servicios incluyen consulta personalizada.
+  </p>
+
+  <div class="servicio-grid">
+    <!-- Tarjeta 1 -->
+    <div class="card-servicio">
+      <img src="logo.jpeg" alt="Servicio" />
+      <div class="info">
+        <div class="top">
+          <h3>Corte Clásico</h3>
+          <span>$15</span>
+        </div>
+        <small>30 minutos</small>
+        <p>Corte tradicional con tijeras y máquina, incluye lavado y peinado.</p>
+        <a href="reserva.html" class="btn-reservar">Reservar</a>
+      </div>
+    </div>
+
+    <!-- Tarjeta 2 -->
+    <div class="card-servicio">
+      <img src="logo.jpeg" alt="Servicio" />
+      <div class="info">
+        <div class="top">
+          <h3>Corte + Barba</h3>
+          <span>$25</span>
+        </div>
+        <small>45 minutos</small>
+        <p>Corte de cabello completo más arreglo y perfilado de barba.</p>
+        <a href="reserva.html" class="btn-reservar">Reservar</a>
+      </div>
+    </div>
+
+    <!-- Tarjeta 3 -->
+    <div class="card-servicio">
+      <img src="logo.jpeg" alt="Servicio" />
+      <div class="info">
+        <div class="top">
+          <h3>Afeitado Tradicional</h3>
+          <span>$18</span>
+        </div>
+        <small>30 minutos</small>
+        <p>Afeitado con navaja tradicional, incluye toalla caliente y mascarilla.</p>
+        <a href="reserva.html" class="btn-reservar">Reservar</a>
+      </div>
+    </div>
+    <!-- Tarjeta 4 -->
+    <div class="card-servicio">
+      <img src="logo.jpeg" alt="Servicio" />
+      <div class="info">
+        <div class="top">
+          <h3>cr7</h3>
+          <span>$18</span>
+        </div>
+        <small>30 minutos</small>
+        <p>Afeitado con navaja tradicional, incluye toalla caliente y mascarilla.</p>
+        <a href="reserva.html" class="btn-reservar">Reservar</a>
+      </div>
+    </div>
+
+    <!-- Tarjeta 5 -->
+    <div class="card-servicio">
+      <img src="logo.jpeg" alt="Servicio" />
+      <div class="info">
+        <div class="top">
+          <h3>desbanecido</h3>
+          <span>$18</span>
+        </div>
+        <small>30 minutos</small>
+        <p>Afeitado con navaja tradicional, incluye toalla caliente y mascarilla.</p>
+        <a href="reserva.html" class="btn-reservar">Reservar</a>
+      </div>
+    </div>
+
+    <!-- Tarjeta 6 -->
+    <div class="card-servicio">
+      <img src="logo.jpeg" alt="Servicio" />
+      <div class="info">
+        <div class="top">
+          <h3>taper fade</h3>
+          <span>$18</span>
+        </div>
+        <small>30 minutos</small>
+        <p>Afeitado con navaja tradicional, incluye toalla caliente y mascarilla.</p>
+        <a href="reserva.html" class="btn-reservar">Reservar</a>
+      </div>
+    </div>
+
+    <!-- Puedes duplicar más tarjetas si gustas -->
+  </div>
+</section>
+
+<!-- seccion de contactanos  -->
+<section id="contacto" class="contacto">
+  <div class="contenedor-contacto">
+    <h2>Información de Contacto</h2>
+    <div class="info-contacto">
+      <div class="item-contacto">
+        <div class="icono"><span>✂️</span></div>
+        <div>
+          <strong>Dirección</strong>
+          <p>Av. Principal 123, Ciudad</p>
+        </div>
+      </div>
+      <div class="item-contacto">
+        <div class="icono"><span>📞</span></div>
+        <div>
+          <strong>Teléfono</strong>
+          <p>+1 234 567 890</p>
+        </div>
+      </div>
+      <div class="item-contacto">
+        <div class="icono"><span>🕒</span></div>
+        <div>
+          <strong>Horario </strong>
+          <p>Lun-Vie: 9am–7pm | Sáb: 9am–2pm</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="mapa">
+      <iframe 
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3148.6601000403293!2d-88.94619209491549!3d20.20031865123328!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8f5725d7c1984e69%3A0x270ff53124d60191!2zU3RhciBCYXJiZXJzaG9wIPCfj7vigI0g77iP!5e0!3m2!1ses-419!2smx!4v1744829593245!5m2!1ses-419!2smx" 
+        width="100%" 
+        height="300" 
+        style="border:0; border-radius: 10px;" 
+        allowfullscreen="" 
+        loading="lazy">
+      </iframe>
+    </div>
+  </div>
+</section>
+
+
+
+</body>
+</html>

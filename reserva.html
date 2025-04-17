@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reservar Cita</title>
+  <style>
+    /* reservar.css */
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f2f2f2;
+      color: #333;
+    }
+
+    header {
+      background: #111;
+      color: #fff;
+      padding: 2rem;
+      text-align: center;
+      position: relative;
+    }
+
+    .back-button {
+      position: absolute;
+      left: 20px;
+      top: 20px;
+      background: none;
+      border: none;
+      color: rgb(0, 0, 0);
+      font-size: 24px;
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+
+    .back-button:hover {
+      transform: translateX(-5px);
+    }
+
+    main {
+      padding: 2rem;
+    }
+
+    .calendario-navegacion {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .calendario-navegacion button {
+      background-color: #222;
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background 0.3s ease;
+    }
+
+    .calendario-navegacion button:hover {
+      background-color: #444;
+    }
+
+    .calendario {
+      text-align: center;
+      background: white;
+      padding: 1rem;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    .titulo-mes {
+      margin-bottom: 1rem;
+      color: #111;
+    }
+
+    .mes-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 0.5rem;
+    }
+
+    .dia-header {
+      font-weight: bold;
+      padding: 0.5rem;
+      background-color: #f2f2f2;
+      border-radius: 6px;
+    }
+
+    .dia {
+      padding: 1rem;
+      background-color: #fff;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      font-weight: bold;
+    }
+
+    .dia:hover {
+      background-color: #e0e0e0;
+    }
+
+    .dia.ocupado {
+      background-color: #e74c3c;
+      color: white;
+      cursor: not-allowed;
+    }
+
+    .dia.vacio {
+      background-color: #f9f9f9;
+      border: 1px dashed #ddd;
+      cursor: default;
+    }
+
+    .horarios {
+      margin-top: 2rem;
+      text-align: center;
+    }
+
+    #lista-horarios {
+      list-style: none;
+      padding: 0;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    #lista-horarios li {
+      background-color: #111;
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    #lista-horarios li:hover {
+      background-color: #333;
+    }
+
+    .servicios {
+      margin-top: 2rem;
+      text-align: center;
+    }
+
+    #lista-servicios {
+      list-style: none;
+      padding: 0;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    #lista-servicios li {
+      background-color: #111;
+      color: white;
+      padding: 0.8rem 1.2rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 150px;
+    }
+
+    #lista-servicios li:hover {
+      background-color: #333;
+    }
+
+    #lista-servicios li.selected {
+      background-color: #4CAF50;
+      box-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
+    }
+
+    #lista-servicios li .precio {
+      font-size: 0.8rem;
+      margin-top: 5px;
+    }
+
+    .formulario {
+      margin-top: 2rem;
+      background: white;
+      padding: 2rem;
+      border-radius: 10px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    .formulario h2 {
+      margin-bottom: 1rem;
+    }
+
+    .formulario input {
+      width: 100%;
+      padding: 0.8rem;
+      margin: 0.5rem 0;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+    }
+
+    .formulario button {
+      background-color: #111;
+      color: white;
+      padding: 0.8rem 2rem;
+      font-size: 1rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 1rem;
+      transition: background 0.3s;
+    }
+
+    .formulario button:hover {
+      background-color: #333;
+    }
+
+    .sin-horarios {
+      padding: 1rem;
+      background-color: #f8d7da;
+      color: #721c24;
+      border-radius: 5px;
+      margin-top: 1rem;
+      text-align: center;
+    }
+
+    #whatsapp-button {
+      background-color: #25D366;
+      margin-top: 10px;
+    }
+
+    #whatsapp-button:hover {
+      background-color: #128C7E;
+    }
+    
+    header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background-color: #f8f8f8;
+  text-align: center;
+}
+
+.logo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem; /* espacio entre la imagen y el texto */
+  margin-bottom: 1.5rem;
+}
+
+.logo img {
+  width: 80px;
+  height: auto;
+  border-radius: 50%; /* si quieres que se vea redondito */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* flotante */
+  transition: transform 0.3s ease;
+}
+
+.logo img:hover {
+  transform: scale(1.5); /* efecto flotante al pasar el mouse */
+}
+
+.logo span {
+  font-size: 3rem;
+  font-weight: bold;
+  color: #333;
+}
+
+header p {
+  font-size: 1.1rem;
+  color: #666;
+}
+
+  </style>
+</head>
+<body>
+  <header>
+    <button class="back-button" onclick="volverAlInicio()">&larr;</button>
+    <div class="logo">
+      <img src="logo.jpeg" alt="Logo" />
+      <span>Bienvenido StarBarbershop</span>
+    </div>
+    <p>Aqui tenemos nuestras dias y horarios disponibles</p>
+  </header>
+
+  <main>
+    <section class="calendario-container">
+      <div class="calendario-navegacion">
+        <button id="mes-anterior">&laquo; Anterior</button>
+        <button id="mes-siguiente">Siguiente &raquo;</button>
+      </div>
+      <div class="calendario" id="calendario"></div>
+      <div class="horarios" id="horarios" style="display: none;">
+        <h3>Horarios disponibles para: <span id="fecha-seleccionada">Seleccione un día</span></h3>
+        <ul id="lista-horarios"></ul>
+      </div>
+      <div class="servicios" id="servicios-section" style="display: none;">
+        <h3>Seleccione un servicio:</h3>
+        <ul id="lista-servicios">
+          <li data-servicio="Corte de Cabello" data-precio="$15" onclick="seleccionarServicio(this, 'Corte de Cabello', '$15')">
+            Corte de Cabello
+            <span class="precio">$15</span>
+          </li>
+          <li data-servicio="Afeitado Tradicional" data-precio="$18" onclick="seleccionarServicio(this, 'Afeitado Tradicional', '$18')">
+            Afeitado Tradicional
+            <span class="precio">$18</span>
+          </li>
+          <li data-servicio="Corte + Afeitado" data-precio="$30" onclick="seleccionarServicio(this, 'Corte + Afeitado', '$30')">
+            Corte + Afeitado
+            <span class="precio">$30</span>
+          </li>
+          <li data-servicio="Tratamiento Capilar" data-precio="$25" onclick="seleccionarServicio(this, 'Tratamiento Capilar', '$25')">
+            Tratamiento Capilar
+            <span class="precio">$25</span>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="formulario" id="formulario-cita" style="display: none;">
+      <h2>Confirmar Cita</h2>
+      <form id="formulario">
+        <p><strong>Fecha:</strong> <span id="resumen-fecha"></span></p>
+        <p><strong>Hora:</strong> <span id="resumen-hora"></span></p>
+        <p><strong>Servicio:</strong> <span id="resumen-servicio"></span></p>
+        <p><strong>Precio:</strong> <span id="resumen-precio"></span></p>
+        <input type="text" id="nombre-cliente" placeholder="Nombre completo" required><br>
+        <input type="tel" id="telefono-cliente" placeholder="Número telefónico" required><br>
+        <button type="button" onclick="confirmarCita()">Confirmar Cita</button>
+      </form>
+    </section>
+  </main>
+
+  <script>
+    const calendario = document.getElementById('calendario');
+    const listaHorarios = document.getElementById('lista-horarios');
+    const horariosSection = document.getElementById('horarios');
+    const serviciosSection = document.getElementById('servicios-section');
+    const fechaSeleccionada = document.getElementById('fecha-seleccionada');
+    const resumenFecha = document.getElementById('resumen-fecha');
+    const resumenHora = document.getElementById('resumen-hora');
+    const resumenServicio = document.getElementById('resumen-servicio');
+    const resumenPrecio = document.getElementById('resumen-precio');
+    const formularioCita = document.getElementById('formulario-cita');
+
+    let diasBloqueados = [];
+    let horariosDisponibles = [];
+    let fechaActual = new Date();
+    let fechaSeleccionadaValor = '';
+    let horaSeleccionada = '';
+    let servicioSeleccionado = '';
+    let precioSeleccionado = '';
+
+    // Número del barbero (reemplazar con el número real)
+    const numeroBarbero = '529971201387'; // REEMPLAZAR CON NÚMERO DEL BARBERO
+
+    // Cargar configuración guardada por el administrador
+    function cargarConfiguracion() {
+      // Cargar días bloqueados
+      const diasBloqueadosGuardados = localStorage.getItem('diasBloqueados');
+      if (diasBloqueadosGuardados) {
+        diasBloqueados = JSON.parse(diasBloqueadosGuardados);
+      }
+
+      // Cargar horarios disponibles
+      const horariosGuardados = localStorage.getItem('horariosDisponibles');
+      if (horariosGuardados) {
+        horariosDisponibles = JSON.parse(horariosGuardados);
+      } else {
+        // Horarios por defecto si no hay guardados
+        horariosDisponibles = [
+          '9:00 AM', '10:00 AM', '11:00 AM', '1:00 PM', '2:00 PM', '4:00 PM', '6:00 PM'
+        ];
+      }
+    }
+
+    // Función para volver a la página principal
+    function volverAlInicio() {
+      window.location.href = 'index.html'; // Asumiendo que la página principal es index.html
+    }
+
+    document.getElementById('mes-anterior').addEventListener('click', () => {
+      fechaActual.setMonth(fechaActual.getMonth() - 1);
+      renderCalendario(fechaActual);
+    });
+
+    document.getElementById('mes-siguiente').addEventListener('click', () => {
+      fechaActual.setMonth(fechaActual.getMonth() + 1);
+      renderCalendario(fechaActual);
+    });
+
+    function renderCalendario(fechaBase) {
+      calendario.innerHTML = '';
+      const year = fechaBase.getFullYear();
+      const month = fechaBase.getMonth();
+      const primerDia = new Date(year, month, 1);
+      const ultimoDia = new Date(year, month + 1, 0);
+      const totalDias = ultimoDia.getDate();
+      const primerDiaSemana = primerDia.getDay() || 7; // Ajuste para comenzar en lunes (1)
+
+      const tituloMes = document.createElement('h2');
+      tituloMes.textContent = fechaBase.toLocaleDateString('es-ES', { month: 'long', year: 'numeric' });
+      tituloMes.classList.add('titulo-mes');
+      calendario.appendChild(tituloMes);
+
+      const diasGrid = document.createElement('div');
+      diasGrid.classList.add('mes-grid');
+
+      // Agregar encabezados de días
+      const diasSemana = ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'];
+      diasSemana.forEach(dia => {
+        const diaHeader = document.createElement('div');
+        diaHeader.textContent = dia;
+        diaHeader.classList.add('dia-header');
+        diasGrid.appendChild(diaHeader);
+      });
+
+      // Agregar días vacíos antes del primer día del mes
+      for (let i = 1; i < primerDiaSemana; i++) {
+        const diaVacio = document.createElement('div');
+        diaVacio.classList.add('dia', 'vacio');
+        diasGrid.appendChild(diaVacio);
+      }
+
+      // Agregar días del mes
+      for (let i = 1; i <= totalDias; i++) {
+        const dia = new Date(year, month, i);
+        const fechaStr = dia.toISOString().split('T')[0];
+
+        const diaElemento = document.createElement('div');
+        diaElemento.textContent = i;
+        diaElemento.classList.add('dia');
+
+        // Verificar si el día está bloqueado por el administrador
+        if (diasBloqueados.includes(fechaStr)) {
+          diaElemento.classList.add('ocupado');
+          diaElemento.style.cursor = 'not-allowed';
+        } else {
+          diaElemento.addEventListener('click', () => mostrarHorarios(fechaStr));
+        }
+
+        diasGrid.appendChild(diaElemento);
+      }
+
+      calendario.appendChild(diasGrid);
+    }
+
+    function mostrarHorarios(fecha) {
+      fechaSeleccionadaValor = fecha;
+      fechaSeleccionada.textContent = formatearFecha(fecha);
+      listaHorarios.innerHTML = '';
+      resumenFecha.textContent = formatearFecha(fecha);
+      
+      horariosSection.style.display = 'block';
+      serviciosSection.style.display = 'none';
+      formularioCita.style.display = 'none';
+      
+      // Verificar si hay horarios disponibles
+      if (horariosDisponibles.length === 0) {
+        const mensajeSinHorarios = document.createElement('div');
+        mensajeSinHorarios.classList.add('sin-horarios');
+        mensajeSinHorarios.textContent = 'No hay horarios disponibles para este día.';
+        listaHorarios.appendChild(mensajeSinHorarios);
+        return;
+      }
+      
+      // Mostrar los horarios disponibles configurados por el administrador
+      horariosDisponibles.forEach(hora => {
+        const li = document.createElement('li');
+        li.textContent = hora;
+        li.addEventListener('click', () => seleccionarHora(hora));
+        listaHorarios.appendChild(li);
+      });
+      
+      horariosSection.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function seleccionarHora(hora) {
+      horaSeleccionada = hora;
+      resumenHora.textContent = hora;
+      
+      // Mostrar selección de servicios
+      serviciosSection.style.display = 'block';
+      serviciosSection.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function seleccionarServicio(elemento, servicio, precio) {
+      // Remover la clase 'selected' de todos los servicios
+      const servicios = document.querySelectorAll('#lista-servicios li');
+      servicios.forEach(item => {
+        item.classList.remove('selected');
+      });
+      
+      // Agregar clase 'selected' al servicio elegido
+      elemento.classList.add('selected');
+      
+      servicioSeleccionado = servicio;
+      precioSeleccionado = precio;
+      
+      // Actualizar el texto en el resumen
+      resumenServicio.textContent = servicio;
+      resumenPrecio.textContent = precio;
+      
+      mostrarFormulario();
+    }
+
+    function mostrarFormulario() {
+      formularioCita.style.display = 'block';
+      formularioCita.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function formatearFecha(fechaStr) {
+      const fecha = new Date(fechaStr);
+      return fecha.toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+    }
+
+    function confirmarCita() {
+      const nombreCliente = document.getElementById('nombre-cliente').value;
+      const telefonoCliente = document.getElementById('telefono-cliente').value;
+      
+      if (!nombreCliente || !telefonoCliente) {
+        alert('Por favor complete todos los campos');
+        return;
+      }
+      
+      if (!servicioSeleccionado) {
+        alert('Por favor seleccione un servicio');
+        return;
+      }
+      
+      // Crear mensaje para WhatsApp
+      const mensaje = encodeURIComponent(
+        `*NUEVA CITA*\n\n` +
+        `*Cliente:* ${nombreCliente}\n` +
+        `*Teléfono:* ${telefonoCliente}\n` +
+        `*Fecha:* ${resumenFecha.textContent}\n` +
+        `*Hora:* ${horaSeleccionada}\n` +
+        `*Servicio:* ${servicioSeleccionado}\n` +
+        `*Precio:* ${precioSeleccionado}`
+      );
+      
+      // Crear enlace de WhatsApp
+      const urlWhatsApp = `https://wa.me/${numeroBarbero}?text=${mensaje}`;
+      
+      // Crear mensaje de confirmación
+      const confirmacion = `
+        <h2>¡Cita reservada con éxito!</h2>
+        <p>Se ha programado su cita para:</p>
+        <p><strong>Fecha:</strong> ${resumenFecha.textContent}</p>
+        <p><strong>Hora:</strong> ${horaSeleccionada}</p>
+        <p><strong>Servicio:</strong> ${servicioSeleccionado}</p>
+        <p><strong>Precio:</strong> ${precioSeleccionado}</p>
+        <button id="whatsapp-button" onclick="window.open('${urlWhatsApp}', '_blank')">Enviar recibo al barbero por WhatsApp</button>
+      `;
+      
+      // Mostrar confirmación y botón para enviar por WhatsApp
+      formularioCita.innerHTML = confirmacion;
+    }
+
+    // Inicializar datos y renderizar calendario
+    cargarConfiguracion();
+    renderCalendario(fechaActual);
+  </script>
+</body>
+</html>
