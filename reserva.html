@@ -6,6 +6,7 @@
   <title>Reservar Cita</title>
   <style>
     /* reservar.css */
+    
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       margin: 0;
@@ -107,6 +108,12 @@
     .dia.ocupado {
       background-color: #e74c3c;
       color: white;
+      cursor: not-allowed;
+    }
+
+    .dia.pasado {
+      background-color: #cccccc;
+      color: #999999;
       cursor: not-allowed;
     }
 
@@ -246,46 +253,96 @@
     }
     
     header {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 2rem;
-  background-color: #f8f8f8;
-  text-align: center;
-}
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      background-color: #f8f8f8;
+      text-align: center;
+    }
 
-.logo {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1rem; /* espacio entre la imagen y el texto */
-  margin-bottom: 1.5rem;
-}
+    .logo {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem; /* espacio entre la imagen y el texto */
+      margin-bottom: 1.5rem;
+    }
 
-.logo img {
-  width: 80px;
-  height: auto;
-  border-radius: 50%; /* si quieres que se vea redondito */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* flotante */
-  transition: transform 0.3s ease;
-}
+    .logo img {
+      width: 80px;
+      height: auto;
+      border-radius: 50%; /* si quieres que se vea redondito */
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* flotante */
+      transition: transform 0.3s ease;
+    }
 
-.logo img:hover {
-  transform: scale(1.5); /* efecto flotante al pasar el mouse */
-}
+    .logo img:hover {
+      transform: scale(1.5); /* efecto flotante al pasar el mouse */
+    }
 
-.logo span {
-  font-size: 3rem;
-  font-weight: bold;
-  color: #333;
-}
+    .logo span {
+      font-size: 3rem;
+      font-weight: bold;
+      color: #333;
+    }
 
-header p {
-  font-size: 1.1rem;
-  color: #666;
-}
+    header p {
+      font-size: 1.1rem;
+      color: #666;
+    }
 
+    .contador-servicios {
+      background-color: #333;
+      color: white;
+      padding: 8px 15px;
+      border-radius: 20px;
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 100;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    }
+
+    .contador-servicios.warning {
+      background-color: #e74c3c;
+      animation: pulse 1s infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+
+    #servicios-seleccionados {
+      margin-top: 1rem;
+      text-align: left;
+      max-width: 400px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    #servicios-seleccionados div {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px;
+      border-bottom: 1px solid #eee;
+    }
+
+    #servicios-seleccionados .eliminar-servicio {
+      color: #e74c3c;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    #total-precio {
+      font-weight: bold;
+      margin-top: 1rem;
+      text-align: right;
+      font-size: 1.2rem;
+    }
   </style>
 </head>
 <body>
@@ -310,25 +367,61 @@ header p {
         <ul id="lista-horarios"></ul>
       </div>
       <div class="servicios" id="servicios-section" style="display: none;">
-        <h3>Seleccione un servicio:</h3>
+        <h3>Seleccione hasta 3 servicios:</h3>
+        <div id="contador-servicios" class="contador-servicios">Servicios: 0/3</div>
         <ul id="lista-servicios">
-          <li data-servicio="Corte de Cabello" data-precio="$15" onclick="seleccionarServicio(this, 'Corte de Cabello', '$15')">
-            Corte de Cabello
+          <li data-servicio="Taper fade" data-precio="50" onclick="toggleServicio(this, 'Taper fade', 50)">
+            Taper fade
+            <span class="precio">$50</span>
+          </li>
+          <li data-servicio="Low fade" data-precio="50" onclick="toggleServicio(this, 'Low fade', 50)">
+            Low fade
+            <span class="precio">$50</span>
+          </li>
+          <li data-servicio="Mullet fade" data-precio="50" onclick="toggleServicio(this, 'Mullet fade', 50)">
+            Mullet fade
+            <span class="precio">$50</span>
+          </li>
+          <li data-servicio="Mohawk fade" data-precio="50" onclick="toggleServicio(this, 'Mohawk fade', 50)">
+            Mohawk fade
+            <span class="precio">$50</span>
+          </li>
+          <li data-servicio="Burst fade" data-precio="50" onclick="toggleServicio(this, 'Burst fade', 50)">
+            Burst fade
+            <span class="precio">$50</span>
+          </li>
+          <li data-servicio="Mid fade" data-precio="50" onclick="toggleServicio(this, 'Mid fade', 50)">
+            Mid fade
+            <span class="precio">$50</span>
+          </li>
+          <li data-servicio="Middle part" data-precio="50" onclick="toggleServicio(this, 'Middle part', 50)">
+            Middle part
+            <span class="precio">$50</span>
+          </li>
+          <li data-servicio="Wolf cut" data-precio="50" onclick="toggleServicio(this, 'Wolf cut', 50)">
+            Wolf cut
+            <span class="precio">$50</span>
+          </li>
+          <li data-servicio="Long trim" data-precio="50" onclick="toggleServicio(this, 'Long trim', 50)">
+            Long trim
+            <span class="precio">$50</span>
+          </li>
+          <li data-servicio="Corte normal" data-precio="50" onclick="toggleServicio(this, 'Corte normal', 50)">
+            Corte normal
+            <span class="precio">$50</span>
+          </li>
+          <li data-servicio="Diseño de raya" data-precio="15" onclick="toggleServicio(this, 'Diseño de raya', 15)">
+            Diseño de raya
             <span class="precio">$15</span>
           </li>
-          <li data-servicio="Afeitado Tradicional" data-precio="$18" onclick="seleccionarServicio(this, 'Afeitado Tradicional', '$18')">
-            Afeitado Tradicional
-            <span class="precio">$18</span>
-          </li>
-          <li data-servicio="Corte + Afeitado" data-precio="$30" onclick="seleccionarServicio(this, 'Corte + Afeitado', '$30')">
-            Corte + Afeitado
-            <span class="precio">$30</span>
-          </li>
-          <li data-servicio="Tratamiento Capilar" data-precio="$25" onclick="seleccionarServicio(this, 'Tratamiento Capilar', '$25')">
-            Tratamiento Capilar
-            <span class="precio">$25</span>
+          <li data-servicio="Diseño de barba" data-precio="20" onclick="toggleServicio(this, 'Diseño de barba', 20)">
+            Diseño de barba
+            <span class="precio">$20</span>
           </li>
         </ul>
+        <div id="servicios-seleccionados"></div>
+        <div id="total-precio">Total: $0</div>
+        <button id="btn-continuar" style="display: none; margin-top: 20px; padding: 10px 20px;" onclick="mostrarFormulario()">Continuar con la reserva</button>
       </div>
     </section>
 
@@ -337,8 +430,8 @@ header p {
       <form id="formulario">
         <p><strong>Fecha:</strong> <span id="resumen-fecha"></span></p>
         <p><strong>Hora:</strong> <span id="resumen-hora"></span></p>
-        <p><strong>Servicio:</strong> <span id="resumen-servicio"></span></p>
-        <p><strong>Precio:</strong> <span id="resumen-precio"></span></p>
+        <div id="resumen-servicios"></div>
+        <p><strong>Total:</strong> <span id="resumen-total"></span></p>
         <input type="text" id="nombre-cliente" placeholder="Nombre completo" required><br>
         <input type="tel" id="telefono-cliente" placeholder="Número telefónico" required><br>
         <button type="button" onclick="confirmarCita()">Confirmar Cita</button>
@@ -354,17 +447,25 @@ header p {
     const fechaSeleccionada = document.getElementById('fecha-seleccionada');
     const resumenFecha = document.getElementById('resumen-fecha');
     const resumenHora = document.getElementById('resumen-hora');
-    const resumenServicio = document.getElementById('resumen-servicio');
-    const resumenPrecio = document.getElementById('resumen-precio');
+    const resumenServicios = document.getElementById('resumen-servicios');
+    const resumenTotal = document.getElementById('resumen-total');
     const formularioCita = document.getElementById('formulario-cita');
+    const btnContinuar = document.getElementById('btn-continuar');
+    const contadorServicios = document.getElementById('contador-servicios');
+    const serviciosSeleccionados = document.getElementById('servicios-seleccionados');
+    const totalPrecio = document.getElementById('total-precio');
 
     let diasBloqueados = [];
     let horariosDisponibles = [];
     let fechaActual = new Date();
     let fechaSeleccionadaValor = '';
+    let fechaFormateada = '';
     let horaSeleccionada = '';
-    let servicioSeleccionado = '';
-    let precioSeleccionado = '';
+    let serviciosElegidos = [];
+    let totalPrecioValor = 0;
+
+    // Establecer hora 0 para comparar solo fechas
+    fechaActual.setHours(0, 0, 0, 0);
 
     // Número del barbero (reemplazar con el número real)
     const numeroBarbero = '529971201387'; // REEMPLAZAR CON NÚMERO DEL BARBERO
@@ -412,6 +513,8 @@ header p {
       const ultimoDia = new Date(year, month + 1, 0);
       const totalDias = ultimoDia.getDate();
       const primerDiaSemana = primerDia.getDay() || 7; // Ajuste para comenzar en lunes (1)
+      const hoy = new Date();
+      hoy.setHours(0, 0, 0, 0); // Para comparar solo fechas
 
       const tituloMes = document.createElement('h2');
       tituloMes.textContent = fechaBase.toLocaleDateString('es-ES', { month: 'long', year: 'numeric' });
@@ -446,8 +549,13 @@ header p {
         diaElemento.textContent = i;
         diaElemento.classList.add('dia');
 
+        // Verificar si el día es anterior a hoy (fecha pasada)
+        if (dia < hoy) {
+          diaElemento.classList.add('pasado');
+          diaElemento.style.cursor = 'not-allowed';
+        } 
         // Verificar si el día está bloqueado por el administrador
-        if (diasBloqueados.includes(fechaStr)) {
+        else if (diasBloqueados.includes(fechaStr)) {
           diaElemento.classList.add('ocupado');
           diaElemento.style.cursor = 'not-allowed';
         } else {
@@ -462,13 +570,21 @@ header p {
 
     function mostrarHorarios(fecha) {
       fechaSeleccionadaValor = fecha;
-      fechaSeleccionada.textContent = formatearFecha(fecha);
+      fechaFormateada = formatearFecha(fecha);
+      fechaSeleccionada.textContent = fechaFormateada;
       listaHorarios.innerHTML = '';
-      resumenFecha.textContent = formatearFecha(fecha);
+      resumenFecha.textContent = fechaFormateada;
       
       horariosSection.style.display = 'block';
       serviciosSection.style.display = 'none';
       formularioCita.style.display = 'none';
+      
+      // Restablecer los servicios seleccionados
+      serviciosElegidos = [];
+      totalPrecioValor = 0;
+      actualizarContadorServicios();
+      actualizarServiciosSeleccionados();
+      actualizarTotalPrecio();
       
       // Verificar si hay horarios disponibles
       if (horariosDisponibles.length === 0) {
@@ -499,78 +615,262 @@ header p {
       serviciosSection.scrollIntoView({ behavior: 'smooth' });
     }
 
-    function seleccionarServicio(elemento, servicio, precio) {
-      // Remover la clase 'selected' de todos los servicios
-      const servicios = document.querySelectorAll('#lista-servicios li');
-      servicios.forEach(item => {
-        item.classList.remove('selected');
+    function toggleServicio(elemento, servicio, precio) {
+      // Verificar si el servicio ya está seleccionado
+      const index = serviciosElegidos.findIndex(s => s.servicio === servicio);
+      
+      if (index > -1) {
+        // Si ya está seleccionado, quitarlo
+        serviciosElegidos.splice(index, 1);
+        elemento.classList.remove('selected');
+      } else {
+        // Si no está seleccionado, verificar si ya hay 3 seleccionados
+        if (serviciosElegidos.length >= 3) {
+          alert('Ya has seleccionado el máximo de 3 servicios.');
+          contadorServicios.classList.add('warning');
+          setTimeout(() => {
+            contadorServicios.classList.remove('warning');
+          }, 2000);
+          return;
+        }
+        
+        // Añadir el servicio a la lista
+        serviciosElegidos.push({
+          servicio: servicio,
+          precio: precio
+        });
+        elemento.classList.add('selected');
+      }
+      
+      // Actualizar contador y listado
+      actualizarContadorServicios();
+      actualizarServiciosSeleccionados();
+      actualizarTotalPrecio();
+      
+      // Mostrar/ocultar botón de continuar según si hay servicios seleccionados
+      if (serviciosElegidos.length > 0) {
+        btnContinuar.style.display = 'inline-block';
+      } else {
+        btnContinuar.style.display = 'none';
+      }
+    }
+
+    function actualizarContadorServicios() {
+      contadorServicios.textContent = `Servicios: ${serviciosElegidos.length}/3`;
+    }
+
+    function actualizarServiciosSeleccionados() {
+      serviciosSeleccionados.innerHTML = '';
+      
+      serviciosElegidos.forEach((item, index) => {
+        const div = document.createElement('div');
+        div.innerHTML = `
+          <span>${item.servicio}</span>
+          <span>$${item.precio} <span class="eliminar-servicio" onclick="eliminarServicio(${index})">✕</span></span>
+        `;
+        serviciosSeleccionados.appendChild(div);
       });
+    }
+
+    function eliminarServicio(index) {
+      // Quitar la clase 'selected' del elemento en la lista
+      const servicio = serviciosElegidos[index].servicio;
+      const elemento = document.querySelector(`#lista-servicios li[data-servicio="${servicio}"]`);
+      if (elemento) {
+        elemento.classList.remove('selected');
+      }
       
-      // Agregar clase 'selected' al servicio elegido
-      elemento.classList.add('selected');
+      // Eliminar de la lista de servicios
+      serviciosElegidos.splice(index, 1);
       
-      servicioSeleccionado = servicio;
-      precioSeleccionado = precio;
+      // Actualizar vistas
+      actualizarContadorServicios();
+      actualizarServiciosSeleccionados();
+      actualizarTotalPrecio();
       
-      // Actualizar el texto en el resumen
-      resumenServicio.textContent = servicio;
-      resumenPrecio.textContent = precio;
-      
-      mostrarFormulario();
+      // Mostrar/ocultar botón de continuar
+      if (serviciosElegidos.length > 0) {
+        btnContinuar.style.display = 'inline-block';
+      } else {
+        btnContinuar.style.display = 'none';
+      }
+    }
+
+    function actualizarTotalPrecio() {
+      totalPrecioValor = serviciosElegidos.reduce((total, item) => total + item.precio, 0);
+      totalPrecio.textContent = `Total: $${totalPrecioValor}`;
     }
 
     function mostrarFormulario() {
+      if (serviciosElegidos.length === 0) {
+        alert('Por favor seleccione al menos un servicio');
+        return;
+      }
+      
+      // Preparar el resumen de servicios para el formulario
+      resumenServicios.innerHTML = '<strong>Servicios:</strong><br>';
+      serviciosElegidos.forEach(item => {
+        resumenServicios.innerHTML += `- ${item.servicio}: $${item.precio}<br>`;
+      });
+      
+      // Actualizar el precio total en el resumen
+      resumenTotal.textContent = `$${totalPrecioValor}`;
+      
       formularioCita.style.display = 'block';
       formularioCita.scrollIntoView({ behavior: 'smooth' });
     }
 
     function formatearFecha(fechaStr) {
-      const fecha = new Date(fechaStr);
-      return fecha.toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
-    }
+  // Split the date string to get year, month, and day
+  const [year, month, day] = fechaStr.split('-');
+  
+  // Create date with explicit year, month (0-indexed), day parameters to avoid timezone issues
+  const fecha = new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
+  
+  return fecha.toLocaleDateString('es-ES', { 
+    weekday: 'long', 
+    day: 'numeric', 
+    month: 'long', 
+    year: 'numeric' 
+  });
+}
 
-    function confirmarCita() {
-      const nombreCliente = document.getElementById('nombre-cliente').value;
-      const telefonoCliente = document.getElementById('telefono-cliente').value;
-      
-      if (!nombreCliente || !telefonoCliente) {
-        alert('Por favor complete todos los campos');
-        return;
-      }
-      
-      if (!servicioSeleccionado) {
-        alert('Por favor seleccione un servicio');
-        return;
-      }
-      
-      // Crear mensaje para WhatsApp
-      const mensaje = encodeURIComponent(
-        `*NUEVA CITA*\n\n` +
-        `*Cliente:* ${nombreCliente}\n` +
-        `*Teléfono:* ${telefonoCliente}\n` +
-        `*Fecha:* ${resumenFecha.textContent}\n` +
-        `*Hora:* ${horaSeleccionada}\n` +
-        `*Servicio:* ${servicioSeleccionado}\n` +
-        `*Precio:* ${precioSeleccionado}`
-      );
-      
-      // Crear enlace de WhatsApp
-      const urlWhatsApp = `https://wa.me/${numeroBarbero}?text=${mensaje}`;
-      
-      // Crear mensaje de confirmación
-      const confirmacion = `
-        <h2>¡Cita reservada con éxito!</h2>
-        <p>Se ha programado su cita para:</p>
-        <p><strong>Fecha:</strong> ${resumenFecha.textContent}</p>
-        <p><strong>Hora:</strong> ${horaSeleccionada}</p>
-        <p><strong>Servicio:</strong> ${servicioSeleccionado}</p>
-        <p><strong>Precio:</strong> ${precioSeleccionado}</p>
-        <button id="whatsapp-button" onclick="window.open('${urlWhatsApp}', '_blank')">Enviar recibo al barbero por WhatsApp</button>
-      `;
-      
-      // Mostrar confirmación y botón para enviar por WhatsApp
-      formularioCita.innerHTML = confirmacion;
+function confirmarCita() {
+  const nombreCliente = document.getElementById('nombre-cliente').value;
+  const telefonoCliente = document.getElementById('telefono-cliente').value;
+  
+  if (!nombreCliente || !telefonoCliente) {
+    alert('Por favor complete todos los campos');
+    return;
+  }
+  
+  if (serviciosElegidos.length === 0) {
+    alert('Por favor seleccione al menos un servicio');
+    return;
+  }
+  
+  // Crear mensaje para WhatsApp
+  let serviciosTexto = '';
+  serviciosElegidos.forEach(item => {
+    serviciosTexto += `*Servicio:* ${item.servicio} - *Precio:* $${item.precio}\n`;
+  });
+  
+  const mensaje = encodeURIComponent(
+    `*NUEVA CITA*\n\n` +
+    `*Cliente:* ${nombreCliente}\n` +
+    `*Teléfono:* ${telefonoCliente}\n` +
+    `*Fecha:* ${fechaFormateada}\n` +
+    `*Hora:* ${horaSeleccionada}\n\n` +
+    `*SERVICIOS SOLICITADOS:*\n${serviciosTexto}\n` +
+    `*TOTAL:* $${totalPrecioValor}`
+  );
+  
+  // Crear enlace de WhatsApp
+  const urlWhatsApp = `https://wa.me/${numeroBarbero}?text=${mensaje}`;
+  
+  // Crear mensaje de confirmación
+  let serviciosHTML = '';
+  serviciosElegidos.forEach(item => {
+    serviciosHTML += `<p><strong>Servicio:</strong> ${item.servicio} - <strong>Precio:</strong> $${item.precio}</p>`;
+  });
+  
+  const confirmacion = `
+    <h2>¡Cita reservada con éxito!</h2>
+    <p>Se ha programado su cita para:</p>
+    <p><strong>Fecha:</strong> ${fechaFormateada}</p>
+    <p><strong>Hora:</strong> ${horaSeleccionada}</p>
+    <h3>Servicios:</h3>
+    ${serviciosHTML}
+    <p><strong>Total:</strong> $${totalPrecioValor}</p>
+    <div style="display: flex; gap: 10px; justify-content: center; margin-top: 20px;">
+      <button id="whatsapp-button" onclick="window.open('${urlWhatsApp}', '_blank')">Enviar recibo al barbero por WhatsApp</button>
+      <button style="background-color: #e74c3c;" onclick="cancelarCita()">Cancelar cita</button>
+    </div>
+  `;
+  
+  // Mostrar confirmación y botones
+  formularioCita.innerHTML = confirmacion;
+}
+
+// Función para cancelar la cita y volver al calendario
+function cancelarCita() {
+  // Limpiar selecciones
+  serviciosElegidos = [];
+  horaSeleccionada = '';
+  fechaSeleccionadaValor = '';
+  fechaFormateada = '';
+  totalPrecioValor = 0;
+  
+  // Ocultar secciones
+  horariosSection.style.display = 'none';
+  serviciosSection.style.display = 'none';
+  formularioCita.style.display = 'none';
+  
+  // Volver a mostrar el calendario
+  calendario.scrollIntoView({ behavior: 'smooth' });
+}
+// Sistema para gestionar horas ocupadas
+let citasOcupadas = {};
+
+// Cargar citas ocupadas al iniciar
+const citasGuardadas = localStorage.getItem('citasOcupadas');
+if (citasGuardadas) {
+  citasOcupadas = JSON.parse(citasGuardadas);
+}
+
+// Modificar la función mostrarHorarios original
+const mostrarHorariosOriginal = mostrarHorarios;
+mostrarHorarios = function(fecha) {
+  // Guardar los horarios originales
+  const horariosOriginales = [...horariosDisponibles];
+  
+  // Filtrar horarios ocupados
+  const horasOcupadas = citasOcupadas[fecha] || [];
+  horariosDisponibles = horariosDisponibles.filter(hora => !horasOcupadas.includes(hora));
+  
+  // Llamar a la función original
+  mostrarHorariosOriginal(fecha);
+  
+  // Restaurar los horarios originales para no afectar otras fechas
+  horariosDisponibles = horariosOriginales;
+};
+
+// Modificar la función confirmarCita original
+const confirmarCitaOriginal = confirmarCita;
+confirmarCita = function() {
+  // Guardar la hora como ocupada
+  if (fechaSeleccionadaValor && horaSeleccionada) {
+    if (!citasOcupadas[fechaSeleccionadaValor]) {
+      citasOcupadas[fechaSeleccionadaValor] = [];
     }
+    citasOcupadas[fechaSeleccionadaValor].push(horaSeleccionada);
+    localStorage.setItem('citasOcupadas', JSON.stringify(citasOcupadas));
+  }
+  
+  // Llamar a la función original
+  confirmarCitaOriginal();
+};
+
+// Modificar la función cancelarCita original
+const cancelarCitaOriginal = cancelarCita;
+cancelarCita = function() {
+  // Eliminar la hora de las citas ocupadas si es una cancelación
+  if (fechaSeleccionadaValor && horaSeleccionada) {
+    if (citasOcupadas[fechaSeleccionadaValor]) {
+      const index = citasOcupadas[fechaSeleccionadaValor].indexOf(horaSeleccionada);
+      if (index > -1) {
+        citasOcupadas[fechaSeleccionadaValor].splice(index, 1);
+        if (citasOcupadas[fechaSeleccionadaValor].length === 0) {
+          delete citasOcupadas[fechaSeleccionadaValor];
+        }
+        localStorage.setItem('citasOcupadas', JSON.stringify(citasOcupadas));
+      }
+    }
+  }
+  
+  // Llamar a la función original
+  cancelarCitaOriginal();
+};
 
     // Inicializar datos y renderizar calendario
     cargarConfiguracion();

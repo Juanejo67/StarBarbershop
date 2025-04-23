@@ -127,6 +127,12 @@
       color: white;
     }
 
+    .dia.pasado {
+      background-color: #bdc3c7;
+      color: #7f8c8d;
+      cursor: not-allowed;
+    }
+
     .dia.seleccionado {
       background-color: #3498db;
       color: white;
@@ -265,6 +271,10 @@
     const mensajeGuardado = document.getElementById('mensaje-guardado');
 
     let fechaActual = new Date();
+    let hoy = new Date();
+    // Establecer la hora a media noche para comparaciones precisas de fecha
+    hoy.setHours(0, 0, 0, 0);
+    
     let diasBloqueados = [];
     let horariosDisponibles = [];
 
@@ -347,12 +357,27 @@
         diaElemento.textContent = i;
         diaElemento.classList.add('dia');
         
-        // Verificar si el día está bloqueado
+        // Verificar si el día es pasado (anterior al día actual)
+        const esDiaPasado = dia < hoy;
+        
+        if (esDiaPasado) {
+          diaElemento.classList.add('pasado');
+          // Si no está en la lista de bloqueados, lo agregamos
+          if (!diasBloqueados.includes(fechaStr)) {
+            diasBloqueados.push(fechaStr);
+          }
+        }
+        
+        // Verificar si el día está bloqueado manualmente
         if (diasBloqueados.includes(fechaStr)) {
           diaElemento.classList.add('bloqueado');
         }
 
-        diaElemento.addEventListener('click', () => toggleDiaBloqueado(fechaStr, diaElemento));
+        // Solo permitir cambiar el estado de días que no son pasados
+        if (!esDiaPasado) {
+          diaElemento.addEventListener('click', () => toggleDiaBloqueado(fechaStr, diaElemento));
+        }
+        
         diasGrid.appendChild(diaElemento);
       }
 
