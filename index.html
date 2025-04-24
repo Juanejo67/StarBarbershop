@@ -22,14 +22,31 @@
         <a href="#contacto">Contacto</a>
       </nav>
       <button class="menu-toggle" onclick="toggleMenu()">☰</button>
-    </header>
-    <script>
-      function toggleMenu() {
-        const nav = document.getElementById("nav-links");
-        nav.classList.toggle("open");
-      }
-    </script>
+</header>
+<script>
+  function toggleMenu() {
+    const nav = document.getElementById("nav-links");
+    nav.classList.toggle("open");
     
+    // Si el menú se abrió, agregamos el event listener para cerrarlo
+    if (nav.classList.contains("open")) {
+      setTimeout(() => {
+        document.addEventListener('click', closeMenuEverywhere);
+      }, 0);
+    }
+  }
+  
+  function closeMenuEverywhere(event) {
+    const nav = document.getElementById("nav-links");
+    const button = document.querySelector('.menu-toggle');
+    
+    // Si el click NO fue en el menú ni en el botón
+    if (!nav.contains(event.target) && event.target !== button) {
+      nav.classList.remove("open");
+      document.removeEventListener('click', closeMenuEverywhere);
+    }
+  }
+</script>
 
     <section id="inicio" class="hero">
       <h1>Barbería Profesional</h1>
@@ -47,7 +64,7 @@
   <h2>Nuestros Servicios</h2>
   <p>
     Ofrecemos una variedad de cortes y estilos para satisfacer tus necesidades.
-    Todos nuestros servicios incluyen consulta personalizada.
+    Todos nuestros servicios se agendan con cita anticipada.
   </p>
 
   <div class="servicio-grid">
@@ -248,7 +265,8 @@
         <div class="icono"><span>🕒</span></div>
         <div>
           <strong>Horario </strong>
-          <p>Lun-Vie: 9am–7pm | Sáb: 9am–2pm</p>
+          <p>Lun-Vie: 9am–4pm | Sáb a dom: 9am–4pm</p>
+          <p>Reserva tu cita a tu hora disponible.</p>
         </div>
       </div>
     </div>
